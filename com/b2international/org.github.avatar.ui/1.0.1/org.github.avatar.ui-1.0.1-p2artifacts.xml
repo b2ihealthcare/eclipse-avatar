@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?artifactRepository version='1.1.0'?>
+<artifacts size='1'>
+  <artifact classifier='osgi.bundle' id='org.github.avatar.ui' version='1.0.1'>
+    <properties size='5'>
+      <property name='artifact.size' value='24293'/>
+      <property name='download.size' value='24293'/>
+      <property name='maven-groupId' value='com.b2international'/>
+      <property name='maven-artifactId' value='org.github.avatar.ui'/>
+      <property name='maven-version' value='1.0.1'/>
+    </properties>
+  </artifact>
+</artifacts>
