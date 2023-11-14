@@ -46,7 +46,7 @@ public class AvatarStore implements Serializable, ISchedulingRule, IAvatarStore 
 	/**
 	 * URL
 	 */
-	public static final String URL = "http://www.gravatar.com/avatar/"; //$NON-NLS-1$
+	public static final String URL = "https://www.gravatar.com/avatar/"; //$NON-NLS-1$
 
 	/**
 	 * HASH_REGEX
