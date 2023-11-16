@@ -12,8 +12,14 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		
 		<!-- Build tool/compiler versions -->
-		<tycho.version>1.2.0</tycho.version>
+		<tycho.version>2.6.0</tycho.version>
+		
+		<!-- Artifact distribution -->
+		<maven.repository.id>nexus_deployment</maven.repository.id>
+		<maven.releases.repository>https://nexus.b2i.sg/repository/maven-releases</maven.releases.repository>
+		<maven.snapshots.repository>https://nexus.b2i.sg/repository/maven-snapshots</maven.snapshots.repository>
 	</properties>
 
 	<repositories>
@@ -23,20 +29,6 @@
 			<layout>p2</layout>
 		</repository>
 	</repositories>
-
-	<distributionManagement>
-		<repository>
-			<id>staging</id>
-			<name>Staging Repository</name>
-			<url>file://${project.build.directory}/mvn-repo</url>
-		</repository>
-	</distributionManagement>
-
-	<scm>
-		<url>https://github.com/b2ihealthcare/eclipse-avatar</url>
-		<connection>scm:git:ssh://github.com/b2ihealthcare/eclipse-avatar.git</connection>
-		<developerConnection>scm:git:ssh@github.com:b2ihealthcare/eclipse-avatar.git</developerConnection>
-	</scm>
 
 	<build>
 		<plugins>
@@ -81,33 +73,24 @@
 					</environments>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>com.github.github</groupId>
-				<artifactId>site-maven-plugin</artifactId>
-				<version>0.12</version>
-				<configuration>
-					<!-- git commit message -->
-					<message>chore(releng): release ${project.version}</message>
-					<noJekyll>true</noJekyll>
-					<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
-					<branch>refs/heads/gh-pages</branch>
-					<merge>true</merge>
-					<includes>
-						<include>**/*</include>
-					</includes>
-					<userName>${github.username}</userName>
-					<password>${github.password}</password>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>deploy</phase>
-						<goals>
-							<goal>site</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
+	
+	<scm>
+		<url>https://github.com/b2ihealthcare/eclipse-avatar</url>
+		<connection>scm:git:ssh://github.com/b2ihealthcare/eclipse-avatar.git</connection>
+		<developerConnection>scm:git:ssh@github.com:b2ihealthcare/eclipse-avatar.git</developerConnection>
+	</scm>
+	
+	<distributionManagement>
+		<repository>
+			<id>${maven.repository.id}</id>
+			<url>${maven.releases.repository}</url>
+		</repository>
+		<snapshotRepository>
+			<id>${maven.repository.id}</id>
+			<url>${maven.snapshots.repository}</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 </project>
