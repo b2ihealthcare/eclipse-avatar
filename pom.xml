@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.b2international</groupId>
 	<artifactId>org.github.avatar.ui</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<packaging>eclipse-plugin</packaging>
 
 	<properties>
@@ -87,7 +87,7 @@
 				<version>0.12</version>
 				<configuration>
 					<!-- git commit message -->
-					<message>[releng] release ${project.version}</message>
+					<message>chore(releng): release ${project.version}</message>
 					<noJekyll>true</noJekyll>
 					<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
 					<branch>refs/heads/gh-pages</branch>
