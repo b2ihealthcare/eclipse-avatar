@@ -13,7 +13,7 @@ try {
 
 	slack.notifyBuild()
 
-	node('build-jdk8') {
+	node('build-jdk8-isolated') {
 
 		stage('Checkout repository') {
 
