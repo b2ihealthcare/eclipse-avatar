@@ -48,11 +48,6 @@ To build, run command
 	mvn clean package
 ```
 
-To release and upload artifacts to gh-pages Maven repository:
-```
-	mvn clean deploy -Dgithub.username=<username> -Dgithub.password=<password>
-```
-
 Other
 ------
 [Eclipse Public License](http://www.eclipse.org/legal/epl-v10.html)
