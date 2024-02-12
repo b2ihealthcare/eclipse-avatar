@@ -33,7 +33,7 @@ try {
 
 		stage('Build') {
 
-			withMaven(jdk: 'OpenJDK_11', maven: 'Maven_3.8.4', mavenSettingsConfig: custom_maven_settings, options: [artifactsPublisher(disabled: true)],  publisherStrategy: 'EXPLICIT') {
+			withMaven(jdk: 'OpenJDK_11', maven: 'Maven_3.8.4', globalMavenSettingsConfig: custom_maven_settings, options: [artifactsPublisher(disabled: true)],  publisherStrategy: 'EXPLICIT') {
 				sh "mvn clean ${mavenPhase} -Dmaven.test.skip=true -Dmaven.install.skip=true"
 			}
 
