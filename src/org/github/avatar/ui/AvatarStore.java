@@ -74,7 +74,7 @@ public class AvatarStore implements Serializable, ISchedulingRule, IAvatarStore 
 	 * HASH_ALGORITHM
 	 */
 	// Changed algorithm from MD5 to SHA256
-	public static final String HASH_ALGORITHM = "SHA256"; //$NON-NLS-1$
+	public static final String HASH_ALGORITHM = "SHA-256"; //$NON-NLS-1$
 
 	/**
 	 * TIMEOUT
