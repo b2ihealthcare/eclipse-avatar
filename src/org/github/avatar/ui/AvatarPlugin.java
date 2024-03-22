@@ -1,5 +1,7 @@
 /*******************************************************************************
  *  Copyright (c) 2011 Kevin Sawicki
+ *  Copyright 2024 B2i Healthcare, https://b2ihealthcare.com
+ *  
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
  *  which accompanies this distribution, and is available at
@@ -42,13 +44,13 @@ public class AvatarPlugin extends AbstractUIPlugin {
 	private static AvatarPlugin plugin;
 
 	private AvatarStore store;
-	private ServiceRegistration storeRegistration;
+	
+	private ServiceRegistration<IAvatarStore> storeRegistration;
 
 	/**
 	 * The constructor
 	 */
-	public AvatarPlugin() {
-	}
+	public AvatarPlugin() { }
 
 	/**
 	 * Get avatar store
@@ -68,16 +70,20 @@ public class AvatarPlugin extends AbstractUIPlugin {
 
 		try {
 			this.store = new AvatarFileStore(context.getBundle()).load();
+			// Always use the compiled constant, not the value stored in the serialized instance
+			this.store.setUrl(AvatarStore.URL);
 		} catch (IOException e) {
 			log(Messages.AvatarPlugin_ExceptionLoadingStore, e);
 		} catch (ClassNotFoundException cnfe) {
 			log(Messages.AvatarPlugin_ExceptionLoadingStore, cnfe);
 		}
-		if (this.store == null)
+		
+		if (this.store == null) {
 			this.store = new AvatarStore();
+		}
 
-		this.storeRegistration = context.registerService(
-				IAvatarStore.class.getName(), this.store, null);
+		// Using parameterized service registration method
+		this.storeRegistration = context.registerService(IAvatarStore.class, this.store, null);
 	}
 
 	private void log(String message, Throwable throwable) {
@@ -86,8 +92,7 @@ public class AvatarPlugin extends AbstractUIPlugin {
 	}
 
 	/**
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext
-	 *      )
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
@@ -113,5 +118,4 @@ public class AvatarPlugin extends AbstractUIPlugin {
 	public static AvatarPlugin getDefault() {
 		return plugin;
 	}
-
 }

@@ -1,5 +1,7 @@
 /*******************************************************************************
  *  Copyright (c) 2011 GitHub Inc.
+ *  Copyright 2024 B2i Healthcare, https://b2ihealthcare.com
+ *  
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
  *  which accompanies this distribution, and is available at
@@ -7,6 +9,7 @@
  *
  *  Contributors:
  *    Kevin Sawicki (GitHub Inc.) - initial API and implementation
+ *    András Péteri (B2i Healthcare) - Use try-with-resources
  *******************************************************************************/
 package org.github.avatar.ui;
 
@@ -47,8 +50,9 @@ public class AvatarFileStore {
 	 * @param bundle
 	 */
 	public AvatarFileStore(Bundle bundle) {
-		this(Platform.getStateLocation(bundle).append(DEFAULT_STORE_NAME)
-				.toFile());
+		this(Platform.getStateLocation(bundle)
+			.append(DEFAULT_STORE_NAME)
+			.toFile());
 	}
 
 	/**
@@ -59,19 +63,15 @@ public class AvatarFileStore {
 	 * @throws ClassNotFoundException
 	 */
 	public AvatarStore load() throws IOException, ClassNotFoundException {
-		if (!file.exists())
+		if (!file.exists()) {
 			return null;
+		}
 
-		ObjectInputStream stream = null;
-		try {
-			stream = new ObjectInputStream(new FileInputStream(file));
-			return (AvatarStore) stream.readObject();
-		} finally {
-			if (stream != null)
-				try {
-					stream.close();
-				} catch (IOException ignore) {
-				}
+		try (
+			final FileInputStream inputStream = new FileInputStream(file);
+			final ObjectInputStream objectStream = new ObjectInputStream(inputStream);
+		) {
+			return (AvatarStore) objectStream.readObject();
 		}
 	}
 
@@ -83,18 +83,13 @@ public class AvatarFileStore {
 	 * @throws IOException
 	 */
 	public AvatarFileStore save(AvatarStore avatars) throws IOException {
-		ObjectOutputStream stream = null;
-		try {
-			stream = new ObjectOutputStream(new FileOutputStream(file));
-			stream.writeObject(avatars);
-		} finally {
-			if (stream != null)
-				try {
-					stream.close();
-				} catch (IOException ignore) {
-				}
+		try (
+			final FileOutputStream outputStream = new FileOutputStream(file);
+			final ObjectOutputStream objectStream = new ObjectOutputStream(outputStream);
+		) {
+			objectStream.writeObject(avatars);
 		}
+		
 		return this;
 	}
-
 }
