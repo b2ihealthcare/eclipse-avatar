@@ -70,6 +70,8 @@ public class AvatarPlugin extends AbstractUIPlugin {
 
 		try {
 			this.store = new AvatarFileStore(context.getBundle()).load();
+			// Always use the compiled constant, not the value stored in the serialized instance
+			this.store.setUrl(AvatarStore.URL);
 		} catch (IOException e) {
 			log(Messages.AvatarPlugin_ExceptionLoadingStore, e);
 		} catch (ClassNotFoundException cnfe) {

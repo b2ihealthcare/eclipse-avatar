@@ -109,15 +109,20 @@ public class AvatarStore implements Serializable, ISchedulingRule, IAvatarStore 
 	 * @param url
 	 */
 	public AvatarStore(String url) {
-		Assert.isNotNull(url, "Url cannot be null"); //$NON-NLS-1$
+		setUrl(url);
+		this.avatars = Collections.synchronizedMap(new HashMap<String, Avatar>());
+	}
 
+	@Override
+	public void setUrl(String url) {
+		Assert.isNotNull(url, "Url cannot be null"); //$NON-NLS-1$
+	
 		// Ensure trailing slash
 		if (!url.endsWith("/")) { //$NON-NLS-1$
 			url += "/"; //$NON-NLS-1$
 		}
 		
 		this.url = url;
-		this.avatars = Collections.synchronizedMap(new HashMap<String, Avatar>());
 	}
 
 	/**

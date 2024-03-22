@@ -100,5 +100,12 @@ public interface IAvatarStore {
 	 * @return avatar or null if not in cache
 	 */
 	Avatar getAvatarByEmail(String email);
+	
+	/**
+	 * Sets the URL used for contacting the avatar service.
+	 * 
+	 * @param url
+	 */
+	void setUrl(String url);
 
 }
