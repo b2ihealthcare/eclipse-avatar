@@ -83,6 +83,11 @@ public class AvatarStore implements Serializable, ISchedulingRule, IAvatarStore 
 	public static final int TIMEOUT = 1000;
 
 	/**
+	 * BUFFER_SIZE
+	 */
+	public static final int BUFFER_SIZE = 8192;
+
+	/**
 	 * serialVersionUID
 	 */
 	private static final long serialVersionUID = 2L;
@@ -263,13 +268,18 @@ public class AvatarStore implements Serializable, ISchedulingRule, IAvatarStore 
 
 		try (
 			final InputStream inputStream = connection.getInputStream();
-			final ByteArrayOutputStream output = new ByteArrayOutputStream();
+			final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		) {
-			// Use Java's built-in mechanism for transferring image data
-			inputStream.transferTo(output);
+
+			byte[] buffer = new byte[BUFFER_SIZE];
+			int read = -1;
+			
+			while ((read = inputStream.read(buffer)) != -1) {
+				outputStream.write(buffer, 0, read);
+			}
 			
 			long lastUpdated = System.currentTimeMillis();
-			avatar = new Avatar(hash, lastUpdated, output.toByteArray());
+			avatar = new Avatar(hash, lastUpdated, outputStream.toByteArray());
 			this.avatars.put(hash, avatar);
 			
 			return avatar;
